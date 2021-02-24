@@ -19,7 +19,14 @@ function renderCart() {
 }
 
 // TODO: Remove all of the rows (tr) in the cart table (tbody)
-function clearCart() {}
+const tbody = document.querySelector('tbody');
+
+function clearCart() {
+
+  while (tbody.lastChild) {
+    tbody.removeChild(tbody.lastChild);
+  }
+}
 
 // TODO: Fill in the <tr>'s under the <tbody> for each item in the cart
 function showCart() {
@@ -31,6 +38,26 @@ function showCart() {
   // TODO: Create a TD for the delete link, quantity,  and the item
   // TODO: Add the TR to the TBODY and each of the TD's to the TR
 
+  for (let i in cart.items) {
+    let trEl = document.createElement('tr');
+
+    const dumpItem = document.createElement('button');
+    dumpItem.type = 'button';
+    dumpItem.textContent = 'X';
+    dumpItem.id = i;
+    trEl.appendChild(dumpItem);
+
+    let quantity = document.createElement('td');
+    quantity.textContent = cart.items[i].quantity;
+    trEl.appendChild(quantity);
+
+    let product = document.createElement('td');
+    product.textContent = cart.items[i].product;
+    trEl.appendChild(product);
+
+    tbody.appendChild(trEl);
+  }
+
 }
 
 function removeItemFromCart(event) {
@@ -38,6 +65,9 @@ function removeItemFromCart(event) {
   // TODO: When a delete link is clicked, use cart.removeItem to remove the correct item
   // TODO: Save the cart back to local storage
   // TODO: Re-draw the cart table
+  cart.removeItem(parseInt(event.target.id));
+  cart.saveToLocalStorage();
+  renderCart();
 
 }
 
