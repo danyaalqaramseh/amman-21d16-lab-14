@@ -7,8 +7,10 @@ table.addEventListener('click', removeItemFromCart);
 let cart;
 
 function loadCart() {
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartItems = JSON.parse(localStorage.getItem('cart')); //|| [];
+  // console.log(cartItems);
   cart = new Cart(cartItems);
+  // console.log(cart);
 }
 
 // Make magic happen --- re-pull the Cart, clear out the screen and re-draw it
@@ -40,6 +42,7 @@ function showCart() {
 
   for (let i in cart.items) {
     let trEl = document.createElement('tr');
+    tbody.appendChild(trEl);
 
     const dumpItem = document.createElement('button');
     dumpItem.type = 'button';
@@ -55,7 +58,6 @@ function showCart() {
     product.textContent = cart.items[i].product;
     trEl.appendChild(product);
 
-    tbody.appendChild(trEl);
   }
 
 }
@@ -66,6 +68,7 @@ function removeItemFromCart(event) {
   // TODO: Save the cart back to local storage
   // TODO: Re-draw the cart table
   cart.removeItem(parseInt(event.target.id));
+  // console.log('target', event.target.id);
   cart.saveToLocalStorage();
   renderCart();
 

@@ -17,7 +17,6 @@ function populateForm() {
     optionEl.value = Product.allProducts[i].name;
     optionEl.textContent = Product.allProducts[i].name;
   }
-
 }
 
 // When someone submits the form, we need to add the selected item to the cart
@@ -33,7 +32,8 @@ function handleSubmit(event) {
   cart.saveToLocalStorage();
   updateCounter();
   updateCartPreview();
-
+  
+  event.target.reset();
 }
 
 // TODO: Add the selected item and quantity to the cart
@@ -50,7 +50,10 @@ function addSelectedItemToCart() {
 // TODO: Update the cart count in the header nav with the number of items in the Cart
 let counter = 0;
 function updateCounter() {
-  counter += parseInt(document.getElementById('quantity').value);
+  // counter += parseInt(document.getElementById('quantity').value);
+  counter = cart.items.length;
+  console.log(cart);
+  console.log(cart.items.length);
   const spanEl = document.getElementById('itemCount');
   spanEl.textContent = counter;
 }
