@@ -12,7 +12,10 @@ function populateForm() {
   //TODO: Add an <option> tag inside the form's select for each product
   const selectElement = document.getElementById('items');
   for (let i in Product.allProducts) {
-
+    const optionEl = document.createElement('option');
+    selectElement.appendChild(optionEl);
+    optionEl.value = Product.allProducts[i].name;
+    optionEl.textContent = Product.allProducts[i].name;
   }
 
 }
@@ -23,9 +26,10 @@ function populateForm() {
 function handleSubmit(event) {
 
   // TODO: Prevent the page from reloading
+  event.preventDefault();
 
   // Do all the things ...
-  addSelectedItemToCart();
+  addSelectedItemToCart(event);
   cart.saveToLocalStorage();
   updateCounter();
   updateCartPreview();
@@ -37,15 +41,29 @@ function addSelectedItemToCart() {
   // TODO: suss out the item picked from the select list
   // TODO: get the quantity
   // TODO: using those, add one item to the Cart
+  let selectedItem = document.getElementById('items').value;
+  let desiredQuantity = document.getElementById('quantity').value;
+  cart.addItem(selectedItem, desiredQuantity);
+
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
-function updateCounter() {}
+let counter = 0;
+function updateCounter() {
+  counter += parseInt(document.getElementById('quantity').value);
+  const spanEl = document.getElementById('itemCount');
+  spanEl.textContent = counter;
+}
 
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
+  const previewList = document.getElementById('cartContents');
+  const liEl = document.createElement('li');
+  liEl.style.listStyle = 'none';
+  liEl.textContent = `${document.getElementById('items').value}: ${document.getElementById('quantity').value}`;
+  previewList.appendChild(liEl);
 }
 
 // Set up the "submit" event listener on the form.
